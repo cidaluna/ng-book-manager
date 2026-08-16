@@ -1,13 +1,14 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { Store } from '@ngxs/store';
+import { Actions, ofActionSuccessful, Store } from '@ngxs/store';
 import { PublishersState } from '../../state/publishers.state';
 import { BooksState } from '../../../books/state/books.state';
-import { LoadPublishers, DeletePublisher } from '../../state/publishers.actions';
+import { LoadPublishers, DeletePublisher, DeletePublisherFail } from '../../state/publishers.actions';
 import { LoadBooks } from '../../../books/state/books.actions';
 import { Publisher } from '../../models/publisher.model';
 import { ConfirmDialog } from './../../../../shared/ui/confirm-dialog/confirm-dialog';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-publisher-list',
@@ -18,19 +19,32 @@ import { ConfirmDialog } from './../../../../shared/ui/confirm-dialog/confirm-di
 })
 export class PublisherList {
   private store = inject(Store);
+  private actions$ = inject(Actions);
 
   publishers$ = this.store.select(PublishersState.items);
-  private booksByPublisher$ = this.store.select(BooksState.booksByPublisher);
 
   publisherPendingDeletion: Publisher | null = null;
+
+  /**
+   * Por quê dois sinais de erro separados (blockedDeletionMessage vs.
+   * apiErrorMessage): são causas completamente diferentes. Um é validação
+   * de regra de negócio no front (síncrona, nunca chega a tocar a API); o
+   * outro é falha real do servidor (assíncrona, via DeletePublisherFail).
+   * Misturar os dois num campo único perderia essa distinção, que é
+   * justamente o que ajuda a debugar rápido: "isso é uma regra de UI
+   * bloqueando, ou o servidor recusou?"
+   */
   blockedDeletionMessage: string | null = null;
+  apiErrorMessage = signal<string | null>(null);
 
   constructor() {
-    // Carrega os dois domínios: livros é necessário aqui só para validar exclusão.
     this.store.dispatch([new LoadPublishers(), new LoadBooks()]);
+
+    this.actions$
+      .pipe(ofActionSuccessful(DeletePublisherFail), takeUntilDestroyed())
+      .subscribe(action => this.apiErrorMessage.set(action.message));
   }
 
-  /** Abre a confirmação de exclusão, mas antes verifica se a editora tem livros vinculados. */
   requestDelete(publisher: Publisher): void {
     const fn = this.store.selectSnapshot(BooksState.booksByPublisher);
     const linkedBooks = fn(publisher.id);
@@ -41,10 +55,10 @@ export class PublisherList {
     }
 
     this.blockedDeletionMessage = null;
+    this.apiErrorMessage.set(null);
     this.publisherPendingDeletion = publisher;
   }
 
-  /** Confirmado pelo usuário no dialog, dispara a exclusão de fato. */
   confirmDelete(): void {
     if (!this.publisherPendingDeletion) return;
     this.store.dispatch(new DeletePublisher(this.publisherPendingDeletion.id));

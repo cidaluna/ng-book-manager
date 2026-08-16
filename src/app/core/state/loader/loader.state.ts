@@ -20,6 +20,7 @@ export class LoaderState {
   @Action(StartLoading)
   start(ctx: StateContext<LoaderStateModel>) {
     const state = ctx.getState();
+    console.log('[LoaderState] +1 →', state.requestCount + 1);
     ctx.patchState({ requestCount: state.requestCount + 1 });
   }
 

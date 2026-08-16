@@ -4,6 +4,10 @@
     <a routerLink="novo" class="btn btn--primary">Novo livro</a>
   </header>
 
+  @if (deleteErrorMessage()) {
+    <p class="alert alert--danger">{{ deleteErrorMessage() }}</p>
+  }
+
   <table class="table">
     <thead>
       <tr>

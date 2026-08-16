@@ -8,6 +8,10 @@
     <p class="alert alert--warning">{{ blockedDeletionMessage }}</p>
   }
 
+  @if (apiErrorMessage()) {
+    <p class="alert alert--danger">{{ apiErrorMessage() }}</p>
+  }
+
   <table class="table">
     <thead>
       <tr>
