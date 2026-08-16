@@ -1,0 +1,29 @@
+@use 'tokens' as *;
+
+.publisher-form {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  max-width: 480px;
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+
+    input {
+      padding: $spacing-sm;
+      border: 1px solid $color-border;
+      border-radius: $radius-sm;
+    }
+
+    &__error {
+      color: $color-danger;
+      font-size: 0.85rem;
+    }
+  }
+
+  &__actions {
+    margin-top: $spacing-sm;
+  }
+}

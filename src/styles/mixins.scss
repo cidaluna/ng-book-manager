@@ -1,0 +1,14 @@
+// Mixins usados em mais de um componente. Se um mixin só é usado num
+// lugar, ele deveria estar no próprio .component.scss, não aqui.
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin card {
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+}

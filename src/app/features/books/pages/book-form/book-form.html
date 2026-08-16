@@ -1,0 +1,54 @@
+<form [formGroup]="form" (ngSubmit)="submit()" class="book-form">
+  <h1>{{ form.value ? 'Editar livro' : 'Novo livro' }}</h1>
+
+  <label class="field">
+    <span>Título</span>
+    <input type="text" formControlName="title" />
+    @if (form.get('title')?.touched && form.get('title')?.invalid) {
+      <small class="field__error">Título é obrigatório (mín. 2 caracteres).</small>
+    }
+  </label>
+
+  <label class="field">
+    <span>ISBN</span>
+    <input type="text" formControlName="isbn" placeholder="978-3-16-148410-0" />
+    @if (form.get('isbn')?.touched && form.get('isbn')?.hasError('invalidIsbn')) {
+      <small class="field__error">ISBN inválido.</small>
+    }
+  </label>
+
+  <label class="field">
+    <span>Editora</span>
+    <select formControlName="publisherId">
+      <option value="" disabled>Selecione</option>
+      @for (publisher of publishers$ | async; track publisher.id) {
+        <option [value]="publisher.id">{{ publisher.name }}</option>
+      }
+    </select>
+  </label>
+
+  <label class="field">
+    <span>Ano de publicação</span>
+    <input type="number" formControlName="publishedYear" />
+    @if (form.hasError('yearBeforeFoundation')) {
+      <small class="field__error">
+        O ano não pode ser anterior à fundação da editora
+        ({{ form.getError('yearBeforeFoundation').foundedYear }}).
+      </small>
+    }
+  </label>
+
+  <label class="field">
+    <span>Páginas</span>
+    <input type="number" formControlName="pages" />
+  </label>
+
+  <label class="field field--checkbox">
+    <input type="checkbox" formControlName="available" />
+    <span>Disponível</span>
+  </label>
+
+  <div class="book-form__actions">
+    <button type="submit" class="btn btn--primary" [disabled]="form.invalid">Salvar</button>
+  </div>
+</form>

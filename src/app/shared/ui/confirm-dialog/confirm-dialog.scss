@@ -1,0 +1,26 @@
+@use 'tokens' as *;
+
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.dialog {
+  background: $color-surface;
+  padding: $spacing-lg;
+  border-radius: $radius-md;
+  max-width: 420px;
+  width: 90%;
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: $spacing-sm;
+    margin-top: $spacing-md;
+  }
+}

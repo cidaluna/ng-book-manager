@@ -1,0 +1,23 @@
+// Fonte única de verdade para valores visuais.
+// Evita cores/spacings "mágicos" espalhados pelos componentes —
+// qualquer ajuste de tema acontece em UM lugar só.
+
+$color-primary: #2f5d8a;
+$color-primary-hover: #24486d;
+$color-danger: #b3261e;
+$color-surface: #ffffff;
+$color-background: #f5f6f8;
+$color-border: #d7dbe0;
+$color-text: #1a1c1e;
+$color-text-muted: #5c6470;
+
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+
+$radius-sm: 4px;
+$radius-md: 8px;
+
+$font-family-base: system-ui, -apple-system, 'Segoe UI', sans-serif;

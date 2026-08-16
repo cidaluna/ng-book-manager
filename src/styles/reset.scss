@@ -1,0 +1,21 @@
+// Reset mínimo — o suficiente para eliminar inconsistências entre browsers
+// sem entrar em conflito com o box model que os componentes assumem.
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+ul, ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+button {
+  font: inherit;
+}

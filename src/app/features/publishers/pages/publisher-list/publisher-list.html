@@ -1,0 +1,45 @@
+<section class="publisher-list">
+  <header class="publisher-list__header">
+    <h1>Editoras</h1>
+    <a routerLink="novo" class="btn btn--primary">Nova editora</a>
+  </header>
+
+  @if (blockedDeletionMessage) {
+    <p class="alert alert--warning">{{ blockedDeletionMessage }}</p>
+  }
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>País</th>
+        <th>Fundação</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (publisher of publishers$ | async; track publisher.id) {
+        <tr>
+          <td>{{ publisher.name }}</td>
+          <td>{{ publisher.country }}</td>
+          <td>{{ publisher.foundedYear }}</td>
+          <td class="table__actions">
+            <a [routerLink]="[publisher.id, 'editar']" class="btn btn--ghost">Editar</a>
+            <button type="button" class="btn btn--danger" (click)="requestDelete(publisher)">
+              Remover
+            </button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</section>
+
+@if (publisherPendingDeletion) {
+  <app-confirm-dialog
+    [title]="'Remover editora'"
+    [message]="'Tem certeza que deseja remover \'' + publisherPendingDeletion.name + '\'?'"
+    (confirm)="confirmDelete()"
+    (cancel)="cancelDelete()"
+  />
+}

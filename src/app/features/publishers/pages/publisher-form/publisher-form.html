@@ -1,0 +1,31 @@
+<form [formGroup]="form" (ngSubmit)="submit()" class="publisher-form">
+  <h1>{{ form.value ? 'Editar editora' : 'Nova editora' }}</h1>
+
+  <label class="field">
+    <span>Nome</span>
+    <input type="text" formControlName="name" />
+    @if (form.get('name')?.touched && form.get('name')?.invalid) {
+      <small class="field__error">Nome é obrigatório (mín. 2 caracteres).</small>
+    }
+  </label>
+
+  <label class="field">
+    <span>País</span>
+    <input type="text" formControlName="country" />
+    @if (form.get('country')?.touched && form.get('country')?.invalid) {
+      <small class="field__error">País é obrigatório.</small>
+    }
+  </label>
+
+  <label class="field">
+    <span>Ano de fundação</span>
+    <input type="number" formControlName="foundedYear" />
+    @if (form.get('foundedYear')?.touched && form.get('foundedYear')?.invalid) {
+      <small class="field__error">Informe um ano válido.</small>
+    }
+  </label>
+
+  <div class="publisher-form__actions">
+    <button type="submit" class="btn btn--primary" [disabled]="form.invalid">Salvar</button>
+  </div>
+</form>

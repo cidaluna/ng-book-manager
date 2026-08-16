@@ -1,0 +1,30 @@
+@use 'tokens' as *;
+
+.book-form {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  max-width: 480px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+
+  input, select {
+    padding: $spacing-sm;
+    border: 1px solid $color-border;
+    border-radius: $radius-sm;
+  }
+
+  &--checkbox {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  &__error {
+    color: $color-danger;
+    font-size: 0.85rem;
+  }
+}

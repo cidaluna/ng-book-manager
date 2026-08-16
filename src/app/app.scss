@@ -1,0 +1,33 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+.app-shell {
+  min-height: 100vh;
+
+  &__nav {
+    @include flex-between;
+    padding: $spacing-md $spacing-lg;
+    background: $color-surface;
+    border-bottom: 1px solid $color-border;
+
+    a {
+      margin-left: $spacing-md;
+      text-decoration: none;
+      color: $color-text-muted;
+      font-weight: 600;
+
+      &.is-active { color: $color-primary; }
+    }
+  }
+
+  &__brand {
+    font-weight: 700;
+    color: $color-text;
+  }
+
+  &__content {
+    padding: $spacing-lg;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+}
