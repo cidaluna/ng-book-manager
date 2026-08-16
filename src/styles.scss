@@ -1,1 +1,50 @@
-/* You can add global styles to this file, and also import other style files */
+@use './styles/tokens.scss' as *;
+@use './styles/reset.scss';
+
+body {
+  font-family: $font-family-base;
+  background: $color-background;
+  color: $color-text;
+}
+
+.btn {
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-sm;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.15s ease;
+
+  &--primary {
+    background: $color-primary;
+    color: #fff;
+    &:hover { background: $color-primary-hover; }
+  }
+  &--danger { background: $color-danger; color: #fff; }
+  &--ghost { background: transparent; border: 1px solid $color-border; }
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: $color-surface;
+  border-radius: $radius-md;
+  overflow: hidden;
+
+  th, td {
+    padding: $spacing-sm $spacing-md;
+    border-bottom: 1px solid $color-border;
+    text-align: left;
+  }
+
+  th { color: $color-text-muted; font-size: 0.85rem; text-transform: uppercase; }
+
+  &__actions { display: flex; gap: $spacing-xs; }
+}
+
+.alert {
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-sm;
+  margin-bottom: $spacing-md;
+  &--warning { background: #fff4e5; color: #8a5300; }
+}

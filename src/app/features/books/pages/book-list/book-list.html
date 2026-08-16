@@ -1,0 +1,34 @@
+<section class="book-list">
+  <header class="book-list__header">
+    <h1>Livros</h1>
+    <a routerLink="novo" class="btn btn--primary">Novo livro</a>
+  </header>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Título</th>
+        <th>ISBN</th>
+        <th>Editora</th>
+        <th>Ano</th>
+        <th>Disponível</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (book of booksWithPublisher$ | async; track book.id) {
+        <tr>
+          <td>{{ book.title }}</td>
+          <td>{{ book.isbn }}</td>
+          <td>{{ book.publisherName }}</td>
+          <td>{{ book.publishedYear }}</td>
+          <td>{{ book.available ? 'Sim' : 'Não' }}</td>
+          <td class="table__actions">
+            <a [routerLink]="[book.id, 'editar']" class="btn btn--ghost">Editar</a>
+            <button type="button" class="btn btn--danger" (click)="remove(book.id)">Remover</button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</section>

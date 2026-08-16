@@ -1,0 +1,13 @@
+@use 'tokens' as *;
+
+.publisher-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}

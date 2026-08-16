@@ -1,1 +1,13 @@
-<router-outlet />
+<app-loader />
+
+<div class="app-shell">
+  <nav class="app-shell__nav">
+    <span class="app-shell__brand">📚 ng-book-manager</span>
+    <a routerLink="/books" routerLinkActive="is-active">Livros</a>
+    <a routerLink="/publishers" routerLinkActive="is-active">Editoras</a>
+  </nav>
+
+  <main class="app-shell__content">
+    <router-outlet />
+  </main>
+</div>

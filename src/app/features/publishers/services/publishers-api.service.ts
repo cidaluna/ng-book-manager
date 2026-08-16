@@ -1,13 +1,13 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from './../../../../environments/envvironment';
+import { environment } from './../../../../environments/environment';
 import { Publisher, CreatePublisherDto, UpdatePublisherDto } from '../models/publisher.model';
 
 @Injectable({ providedIn: 'root' })
 export class PublishersApiService {
   private http = inject(HttpClient);
-  private readonly resource = `${environment.apiBaseUrl}/publishers`;
+  private readonly resource = `${environment.apiUrl}/publishers`;
 
   getAll(): Observable<Publisher[]> {
     return this.http.get<Publisher[]>(this.resource);

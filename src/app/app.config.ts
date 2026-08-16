@@ -12,6 +12,7 @@ import { withNgxsFormPlugin } from '@ngxs/form-plugin';
 import { withNgxsLoggerPlugin } from '@ngxs/logger-plugin';
 import { withNgxsRouterPlugin } from '@ngxs/router-plugin';
 import { withNgxsWebSocketPlugin } from '@ngxs/websocket-plugin';
+import { BooksState } from './features/books/state/books.state';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,7 +20,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withInterceptors([loadingInterceptor])),
     provideStore(
-      [PublishersState, LoaderState],
+      [PublishersState, BooksState, LoaderState],
       withNgxsReduxDevtoolsPlugin(),
       withNgxsFormPlugin(),
       withNgxsLoggerPlugin(),

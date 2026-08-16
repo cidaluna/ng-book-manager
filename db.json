@@ -1,0 +1,51 @@
+{
+  "publishers": [
+    {
+      "id": "pub-1",
+      "name": "Companhia das Letras",
+      "country": "Brasil",
+      "foundedYear": 1986
+    },
+    {
+      "id": "pub-2",
+      "name": "Penguin Random House",
+      "country": "Estados Unidos",
+      "foundedYear": 1927
+    },
+    {
+      "id": "pub-3",
+      "name": "Editora Rocco",
+      "country": "Brasil",
+      "foundedYear": 1975
+    }
+  ],
+  "books": [
+    {
+      "id": "book-1",
+      "title": "Torto Arado",
+      "isbn": "9788535932372",
+      "publisherId": "pub-1",
+      "publishedYear": 2019,
+      "pages": 208,
+      "available": true
+    },
+    {
+      "id": "book-2",
+      "title": "1984",
+      "isbn": "9780451524935",
+      "publisherId": "pub-2",
+      "publishedYear": 1949,
+      "pages": 328,
+      "available": false
+    },
+    {
+      "id": "book-3",
+      "title": "O Hobbit",
+      "isbn": "9788595084742",
+      "publisherId": "pub-3",
+      "publishedYear": 1937,
+      "pages": 310,
+      "available": true
+    }
+  ]
+}
