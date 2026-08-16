@@ -1,6 +1,10 @@
 <form [formGroup]="form" (ngSubmit)="submit()" class="publisher-form">
   <h1>{{ form.value ? 'Editar editora' : 'Nova editora' }}</h1>
 
+  @if (errorMessage()) {
+    <p class="alert alert--danger">{{ errorMessage() }}</p>
+  }
+
   <label class="field">
     <span>Nome</span>
     <input type="text" formControlName="name" />

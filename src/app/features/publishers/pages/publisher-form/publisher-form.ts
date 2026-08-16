@@ -1,10 +1,11 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Store } from '@ngxs/store';
+import { Actions, ofActionSuccessful, Store } from '@ngxs/store';
 import { PublishersState } from '../../state/publishers.state';
-import { AddPublisher, UpdatePublisher } from '../../state/publishers.actions';
+import { AddPublisher, AddPublisherFail, AddPublisherSuccess, UpdatePublisher, UpdatePublisherFail, UpdatePublisherSuccess } from '../../state/publishers.actions';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-publisher-form',
@@ -16,10 +17,13 @@ import { AddPublisher, UpdatePublisher } from '../../state/publishers.actions';
 export class PublisherForm implements OnInit {
   private fb = inject(FormBuilder);
   private store = inject(Store);
+  private actions$ = inject(Actions);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
   private editingId: string | null = null;
+  errorMessage = signal<string | null>(null);
+
 
   form = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(2)]],
@@ -27,7 +31,16 @@ export class PublisherForm implements OnInit {
     foundedYear: [new Date().getFullYear(), [Validators.required, Validators.min(1400)]],
   });
 
-  /** Detecta modo edição pela presença de :id na rota e pré-preenche o form via snapshot do state. */
+  constructor() {
+    this.actions$
+      .pipe(ofActionSuccessful(AddPublisherSuccess, UpdatePublisherSuccess), takeUntilDestroyed())
+      .subscribe(() => this.router.navigate(['/publishers']));
+
+    this.actions$
+      .pipe(ofActionSuccessful(AddPublisherFail, UpdatePublisherFail), takeUntilDestroyed())
+      .subscribe(action => this.errorMessage.set(action.message));
+  }
+
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (!id) return;
@@ -39,20 +52,18 @@ export class PublisherForm implements OnInit {
     }
   }
 
-  /** Despacha Add ou Update conforme o modo e só navega após a ação NGXS resolver. */
   submit(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
 
+    this.errorMessage.set(null);
     const value = this.form.getRawValue();
     const action = this.editingId
       ? new UpdatePublisher(this.editingId, value)
       : new AddPublisher(value);
 
-    // dispatch() retorna um Observable que completa quando a action (e efeitos)
-    // terminam — por isso o navigate só acontece depois do PATCH/POST resolver.
-    this.store.dispatch(action).subscribe(() => this.router.navigate(['/publishers']));
+    this.store.dispatch(action);
   }
 }

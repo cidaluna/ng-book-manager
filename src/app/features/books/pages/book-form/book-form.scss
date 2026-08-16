@@ -1,5 +1,9 @@
 @use 'tokens' as *;
 
+.alert {
+  &--danger { background: #fbe9e7; color: #b3261e; }
+}
+
 .book-form {
   display: flex;
   flex-direction: column;
