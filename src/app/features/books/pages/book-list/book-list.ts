@@ -20,6 +20,13 @@ export class BookList {
   private store = inject(Store);
   private actions$ = inject(Actions);
 
+  /**
+   * Ela escuta a gaveta de Livros e a gaveta de Editoras da Store ao mesmo tempo. Quando a API de
+   * livros e a de editoras respondem, ela monta uma nova lista em tempo real adicionando o nome
+   * da editora (publisherName) direto no objeto do livro.
+   * O dado já chega limpo, mastigado e reativo para a tela. Se um livro mudar ou uma editora
+   * for editada na memória, esse bloco recalcula tudo sozinho instantaneamente.
+   */
   booksWithPublisher$ = combineLatest([
     this.store.select(BooksState.items),
     this.store.select(PublishersState.items),

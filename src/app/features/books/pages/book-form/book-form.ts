@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Actions, ofActionSuccessful, Store } from '@ngxs/store';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -43,8 +43,8 @@ export class BookForm implements OnInit {
       title: ['', [Validators.required, Validators.minLength(2)]],
       isbn: ['', [Validators.required, isbnValidator()]],
       publisherId: ['', Validators.required],
-      publishedYear: [new Date().getFullYear(), [Validators.required, Validators.min(1400)]],
-      pages: [0, [Validators.required, Validators.min(1)]],
+      publishedYear: new FormControl<number | null>(null, [Validators.required, Validators.min(1400)]),
+      pages: new FormControl<number | null>(null, [Validators.required, Validators.min(1)]),
       available: [true],
     },
     {

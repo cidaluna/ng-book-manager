@@ -9,7 +9,6 @@ export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
   store.dispatch(new StartLoading());
 
   return next(req).pipe(
-    // finalize roda em sucesso E erro — é o operador certo pra "desligar" algo, nunca use apenas tap
     finalize(() => store.dispatch(new StopLoading()))
   );
 };

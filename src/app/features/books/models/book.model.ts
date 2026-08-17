@@ -3,8 +3,8 @@ export interface Book {
   title: string;
   isbn: string;
   publisherId: string;   // FK lógica -> Publisher.id
-  publishedYear: number;
-  pages: number;
+  publishedYear: number | null;
+  pages: number | null;
   available: boolean;
 }
 
